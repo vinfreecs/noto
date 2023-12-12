@@ -1,0 +1,45 @@
+.wrapper {
+  max-width: 75vw;
+  flex-grow: 1;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 7rem;
+}
+.bg {
+  background-image: url("../../assets/imageBg.png");
+  width: 39.125rem;
+  height: 19.5625rem;
+  /* max-width: 70%;
+max-height: 40%; */
+  background-size: cover;
+}
+.title {
+  color: #000;
+  font-size: 3.125rem;
+  font-weight: 700;
+  letter-spacing: 0.0625rem;
+}
+.info {
+  color: #292929;
+  font-size: 1.15rem;
+  font-weight: 500;
+  line-height: 2rem; /* 145.455% */
+  letter-spacing: 0.0275rem;
+}
+.footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  position: absolute;
+  bottom: 8px;
+}
+.footer p {
+  color: #292929;
+  font-size: 1.15rem;
+  font-weight: 400;
+  letter-spacing: 0.0275rem;
+}

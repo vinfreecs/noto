@@ -1,0 +1,93 @@
+.notesWrapper {
+  max-width: 75vw;
+  flex-grow: 1;
+  position: relative;
+}
+.header {
+  width: 100%;
+  height: 10%;
+  background-color: #001f8b;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 3rem;
+}
+.icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  font-size: 1.50719rem;
+  font-weight: 500;
+  line-height: 97.688%;
+  letter-spacing: 0.03013rem;
+  background-color: #0047ff;
+  margin-left: 10px;
+}
+.header p {
+  color: #fff;
+  font-size: 1.5rem;
+  font-weight: 500;
+  letter-spacing: 0.03rem;
+}
+.notesBox {
+  width: 100%;
+  height: 65%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 10px;
+}
+.noteWrapper{
+    width: 90%;
+    color: #000;
+font-size: 1.125rem;
+font-style: normal;
+font-weight: 400;
+line-height: 160.188%;
+letter-spacing: 0.03938rem;
+border-radius: 0.3125rem;
+background-color: #FFF;
+box-shadow: 0px 4px 20px 0px rgba(0, 0, 0, 0.25);
+padding: 0.6rem;
+}
+.content{
+    padding: 0.6rem;
+}
+.timepatch{
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+.noteInput {
+  position: absolute;
+  background-color: #001f8b;
+  width: 100%;
+  height: 25%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 8px;
+  bottom: 0;
+}
+.noteInput textarea {
+  resize: none;
+  width: 90%;
+  height: 70%;
+  border-radius: 8px;
+  outline: skyblue solid 1px;
+  border: none;
+  padding: 10px 35px 20px 10px;
+  font-size: 24px;
+}
+.submitNote {
+  position: absolute;
+  bottom: 10%;
+  right: 4%;
+  border: none;
+  background-color: transparent;
+}
