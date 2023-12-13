@@ -4,7 +4,7 @@ import { iconLetters } from "../../utils/iconLetter";
 
 function Group({ ele,handleGroupClick }) {
   return (
-    <button className={styles.groupWrapper} onClick={handleGroupClick}>
+    <button className={styles.groupWrapper} onClick={handleGroupClick} id={ele.groupId} >
       <div
         className={styles.groupIcon}
         style={{ backgroundColor: ele.backgroundColor }}

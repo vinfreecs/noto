@@ -1,30 +1,48 @@
 import styles from "./Notes.module.css";
+import PropTypes from "prop-types";
+import { iconLetters } from "../../utils/iconLetter";
 
-export default function Notes() {
+function Note({ ele }) {
+  return (
+    <div className={styles.noteWrapper}>
+      <div className={styles.content}>{ele.content}</div>
+      <div className={styles.timepatch}>
+        <span>{ele.date}</span>
+        {/* <span style={{fontSize:"3rem"}}>.</span> */}
+        <span>{ele.time}</span>
+      </div>
+    </div>
+  );
+}
+Note.propTypes = {
+  ele: PropTypes.object,
+};
+
+export default function Notes({
+  currGroup,
+  handleNoteSubmit,
+  handleTextAreaChange,
+  note,
+}) {
   return (
     <section className={styles.notesWrapper}>
       <header className={styles.header}>
-        <div className={styles.icon}>MN</div>
-        <p>My Notes</p>
+        <div className={styles.icon}>{iconLetters(currGroup.groupName)}</div>
+        <p>{currGroup.groupName}</p>
       </header>
       <div className={styles.notesBox}>
-        <div className={styles.noteWrapper}>
-          <div className={styles.content}>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Error sit
-            consequatur eaque minus impedit asperiores eveniet ex at sapiente
-            omnis, molestias aut, facere aspernatur in amet commodi ullam itaque
-            repudiandae.
-          </div>
-          <div className={styles.timepatch}>
-            <span>12-12-2023</span>
-            {/* <span style={{fontSize:"3rem"}}>.</span> */}
-            <span>21:47</span>
-          </div>
-        </div>
+        {currGroup.notes.map((ele, index) => (
+          <Note key={index} ele={ele} />
+        ))}
       </div>
       <div className={styles.noteInput}>
-        <textarea name="content" id="content"></textarea>
-        <button className={styles.submitNote}>
+        <textarea
+          name="content"
+          id="content"
+          value={note.content}
+          onChange={handleTextAreaChange}
+        ></textarea>
+        <button className={styles.submitNote} onClick={handleNoteSubmit}>
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="35"
@@ -42,3 +60,9 @@ export default function Notes() {
     </section>
   );
 }
+Notes.propTypes = {
+  currGroup: PropTypes.object,
+  handleNoteSubmit: PropTypes.func,
+  handleTextAreaChange: PropTypes.func,
+  note: PropTypes.object,
+};
