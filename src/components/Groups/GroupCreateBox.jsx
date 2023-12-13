@@ -1,4 +1,4 @@
-import styles from "../../App.module.css";
+import styles from "./GroupCreateBox.module.css";
 import PropTypes from "prop-types";
 
 function ColorBtn({ handleColorChange, color, highlight }) {

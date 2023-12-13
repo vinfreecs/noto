@@ -1,0 +1,91 @@
+.createGroupWrapper {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(47, 47, 47, 0.75);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.createBox {
+  background-color: white;
+  max-width: 46.25rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  padding: 2.5rem 5rem;
+  border-radius: 16px;
+  position: relative;
+  font-size: 1.8125rem;
+}
+.title {
+  font-size: 1em;
+  font-weight: 500;
+  letter-spacing: 0.06344em;
+  margin-bottom: 10px;
+}
+.inputColor,
+.inputName {
+  font-size: 0.7em;
+  font-weight: 500;
+  letter-spacing: 0.05975em;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 1rem;
+}
+.inputName input {
+  border: solid 1px #979797;
+  border-radius: 16px;
+  padding: 0.5rem 1.5rem;
+  color: #979797;
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 160.188%; /* 2.30269rem */
+  letter-spacing: 0.05031rem;
+  max-width: 60%;
+}
+.inputColor button {
+  width: 25px;
+  height: 25px;
+  border: none;
+  border-radius: 50%;
+  display: flex;
+  flex-wrap: wrap;
+}
+.createBtn {
+  width: 150px;
+  height: 40px;
+  font-size: 0.6em;
+  align-self: flex-end;
+  border: none;
+  border-radius: 16px;
+  margin-top: 10px;
+  background-color: #001f8b;
+  color: white;
+}
+@media (max-width:800px) {
+    .createBox{
+        background-color: white;
+        max-width: 20.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        border-radius: 16px;
+        position: relative;
+    }
+    .inputName,
+    .inputColor{
+        gap: 0.25rem;
+        font-size: 0.6em;
+    }
+    .inputName input{
+        width: 50%;
+        padding: 0.25rem 1rem;
+        font-size: 1rem;
+    }
+    .createBtn{
+        width: 100px;
+    }
+}

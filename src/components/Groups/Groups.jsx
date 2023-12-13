@@ -1,8 +1,11 @@
 import PropTypes from "prop-types";
 import styles from "./Groups.module.css";
 import { iconLetters } from "../../utils/iconLetter";
+import { useEffect, useRef } from "react";
 
-function Group({ ele,handleGroupClick }) {
+function Group({ ele,handleGroupClick}) {
+  
+  
   return (
     <button className={styles.groupWrapper} onClick={handleGroupClick} id={ele.groupId} >
       <div
@@ -20,10 +23,14 @@ Group.propTypes = {
   handleGroupClick : PropTypes.func
 };
 
-export default function Groups({ handleClickPlus, groups,handleGroupClick }) {
+export default function Groups({ handleClickPlus, groups,handleGroupClick,openNotes,screenWidth  }) {
+  let display = useRef("flex-column")
+  useEffect(()=>{
+    screenWidth<=800? openNotes? display.current="none" : display.current="flex-column" : display.current="flex-column"
+  },[screenWidth,openNotes])
   return (
     <section className={styles.wrapper}>
-      <h1>NoTo</h1>
+      <h1>NōTo</h1>
       <div className={styles.groupsList}>
         {groups.map((ele, index) => (
           <Group ele={ele} key={index} handleGroupClick={handleGroupClick} />
@@ -39,5 +46,7 @@ export default function Groups({ handleClickPlus, groups,handleGroupClick }) {
 Groups.propTypes = {
   handleClickPlus: PropTypes.func,
   groups: PropTypes.array,
-  handleGroupClick : PropTypes.func
+  handleGroupClick : PropTypes.func,
+  openNotes:PropTypes.bool,
+  screenWidth: PropTypes.number
 };

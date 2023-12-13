@@ -1,14 +1,33 @@
 import styles from "./App.module.css";
 import Groups from "./components/Groups/Groups";
 import Landing from "./components/Landing/Landing";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import GroupCreateBox from "./components/Groups/GroupCreateBox";
 import Notes from "./components/Notes/Notes";
 import { v4 as uuid } from "uuid";
 
+function getWindowWidth() {
+  const innerWidth = window.innerWidth;
+  return innerWidth;
+}
+
 function App() {
+  const [screenWidth, setScreenWidth] = useState(getWindowWidth());
+  useEffect(() => {
+    function handleWindowResize() {
+      setScreenWidth(getWindowWidth());
+    }
+    console.log(screenWidth);
+    window.addEventListener("resize", handleWindowResize);
+
+    return () => {
+      window.removeEventListener("resize", handleWindowResize);
+    };
+  }, []);
   const dateTo = new Date();
-  const [groups, setGroups] = useState([]);
+  const [currDate, setCurrDate] = useState(dateTo.toDateString());
+  const [currTime, setCurrTime] = useState(dateTo.toLocaleTimeString());
+  const [groups, setGroups] = useState(JSON.parse(localStorage.getItem("data"))||[]);
   const [openCreate, setOpenCreate] = useState(false);
   const [groupDetalis, setGroupDetails] = useState({
     groupName: "",
@@ -17,20 +36,24 @@ function App() {
   const [openNotes, setOpenNotes] = useState(false);
   const [newNote, setNewNote] = useState({
     content: "",
-    time: "",
-    date: "",
+    time: currTime,
+    date: currDate,
   });
   const [currGroup, setCurrGroup] = useState({
     groupName: "",
     backgroundColor: "blue",
-    grouId:""
+    grouId: "",
   });
 
   const uuidFromUuidV4 = () => {
     const newUuid = uuid();
     return newUuid;
   };
+  useEffect(()=>{
+    localStorage.setItem("data",JSON.stringify(groups))
+  },[groups])
 
+  
   const handleClickPlus = () => {
     setOpenCreate(true);
   };
@@ -42,8 +65,6 @@ function App() {
 
   const handleColorChange = (e) => {
     setGroupDetails({ ...groupDetalis, backgroundColor: e.target.id });
-    console.log(e.target);
-    e.target;
   };
 
   const handleCreateSubmit = () => {
@@ -62,73 +83,114 @@ function App() {
       //deal with this diffently
       alert("con't be empty");
     }
+    
   };
 
   const handleGroupClick = (e) => {
-    if(e.target.closest("button").id == currGroup.groupId){
+    if (e.target.closest("button").id == currGroup.groupId) {
       setOpenNotes(!openNotes);
-    }else if((currGroup.groupId == "")||(currGroup.groupId != e.target.closest("button").id)){
+    } else if (
+      currGroup.groupId == "" ||
+      currGroup.groupId != e.target.closest("button").id
+    ) {
       const theCurrGrp = groups.filter(
         (ele) => ele.groupId === e.target.closest("button").id
       );
       setCurrGroup({ ...theCurrGrp[0] });
       setOpenNotes(true);
-    }else{
+    } else {
       setOpenNotes(!openNotes);
     }
   };
 
+  //fix the delay in time
   const handleNoteSubmit = () => {
-    setNewNote((prevState) => {
-      let time = dateTo.toLocaleTimeString()
-      let date = dateTo.toLocaleDateString() 
-      return {
-        ...prevState,
-        time: time,
-        date: date,
-      };
-    });
-    console.log(newNote);
-    setCurrGroup({
-      ...currGroup,
-      notes: [...currGroup.notes, newNote],
-    });
-    const index = groups.findIndex(ele => ele.groupId === currGroup.groupId)
-    setGroups((prevState)=>{
-      const newState = [...prevState]
-      const prevNotes = newState[index].notes
-      newState[index] = {...newState[index],notes:[...prevNotes,newNote]}
-      return (newState)
-    })
-    setNewNote({
-      content: "",
-      time: "",
-      date: "",
-    })
-    console.log(index)
+    if (newNote.content.trim() != "") {
+      setCurrGroup({
+        ...currGroup,
+        notes: [...currGroup.notes, newNote],
+      });
+      const index = groups.findIndex(
+        (ele) => ele.groupId === currGroup.groupId
+      );
+      setGroups((prevState) => {
+        const newState = [...prevState];
+        const prevNotes = newState[index].notes;
+        newState[index] = {
+          ...newState[index],
+          notes: [...prevNotes, newNote],
+        };
+        return newState;
+      });
+      setNewNote({
+        content: "",
+        time: currTime,
+        date: currDate,
+      });
+    } else {
+      alert("cant be empty");
+    }
   };
 
+  //enter in textarea not reflecting
   const handleTextAreaChange = (e) => {
-    setNewNote({ ...newNote, content: e.target.value });
+    setCurrDate(dateTo.toDateString());
+    setCurrTime(dateTo.toLocaleTimeString());
+    setNewNote({ time: currTime, date: currDate, content: e.target.value });
   };
+
+  const handleBackBtn = () =>{
+    setOpenNotes(false)
+  }
 
   return (
     <>
       <main className={styles.appWrapper}>
-        <Groups
-          handleClickPlus={handleClickPlus}
-          groups={groups}
-          handleGroupClick={handleGroupClick}
-        />
-        {openNotes ? (
-          <Notes
-            currGroup={currGroup}
-            handleNoteSubmit={handleNoteSubmit}
-            handleTextAreaChange={handleTextAreaChange}
-            note={newNote}
+        {screenWidth > 800 ? (
+          <Groups
+            handleClickPlus={handleClickPlus}
+            groups={groups}
+            handleGroupClick={handleGroupClick}
+            openNotes={openNotes}
+              screenWidth={openNotes}
           />
         ) : (
-          <Landing />
+          !openNotes && (
+            <Groups
+              handleClickPlus={handleClickPlus}
+              groups={groups}
+              handleGroupClick={handleGroupClick}
+              openNotes={openNotes}
+              screenWidth={openNotes}
+            />
+          )
+        )}
+        {screenWidth > 800 ? (
+          openNotes ? (
+            <Notes
+              currGroup={currGroup}
+              handleNoteSubmit={handleNoteSubmit}
+              handleTextAreaChange={handleTextAreaChange}
+              note={newNote}
+              openCreate={openNotes}
+              screenWidth={screenWidth}
+              handleBackBtn={handleBackBtn}
+            />
+          ) : (
+            <Landing />
+          )
+        ) : (
+          openNotes && (
+            <Notes
+              currGroup={currGroup}
+              handleNoteSubmit={handleNoteSubmit}
+              handleTextAreaChange={handleTextAreaChange}
+              note={newNote}
+              openCreate={openNotes}
+              screenWidth={screenWidth}
+              handleBackBtn={handleBackBtn}
+            />
+          )
         )}
         {openCreate && (
           <GroupCreateBox
