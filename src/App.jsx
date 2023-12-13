@@ -20,7 +20,11 @@ function App() {
     time: "",
     date: "",
   });
-  const [currGroup, setCurrGroup] = useState();
+  const [currGroup, setCurrGroup] = useState({
+    groupName: "",
+    backgroundColor: "blue",
+    grouId:""
+  });
 
   const uuidFromUuidV4 = () => {
     const newUuid = uuid();
@@ -61,10 +65,9 @@ function App() {
   };
 
   const handleGroupClick = (e) => {
-    setOpenNotes(!openNotes);
     if(e.target.closest("button").id == currGroup.groupId){
       setOpenNotes(!openNotes);
-    }else if((currGroup.groupId == null)||(currGroup.groupId != e.target.closest("button").id)){
+    }else if((currGroup.groupId == "")||(currGroup.groupId != e.target.closest("button").id)){
       const theCurrGrp = groups.filter(
         (ele) => ele.groupId === e.target.closest("button").id
       );
@@ -92,8 +95,10 @@ function App() {
     });
     const index = groups.findIndex(ele => ele.groupId === currGroup.groupId)
     setGroups((prevState)=>{
-      prevState[index].notes=[...prevState[index].notes,newNote]
-      return (prevState)
+      const newState = [...prevState]
+      const prevNotes = newState[index].notes
+      newState[index] = {...newState[index],notes:[...prevNotes,newNote]}
+      return (newState)
     })
     setNewNote({
       content: "",
